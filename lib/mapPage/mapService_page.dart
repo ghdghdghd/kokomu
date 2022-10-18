@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:group_chat_app/services/database_service.dart';
 
 class MapService extends StatefulWidget {
 
@@ -17,8 +18,10 @@ class MapService extends StatefulWidget {
 
 class _MapServiceState extends State<MapService> {
 
+
+
   // 애플리케이션에서 지도를 이동하기 위한 컨트롤러
-  late GoogleMapController _controller;
+  GoogleMapController? _controller;
 
   // 이 값은 지도가 시작될 때 첫 번째 위치입니다.
   final CameraPosition _initialPosition =
@@ -53,7 +56,7 @@ class _MapServiceState extends State<MapService> {
     print(placemarks[0].administrativeArea.toString());
 
 
-    _controller.animateCamera(
+    _controller?.animateCamera(
       CameraUpdate.newLatLngZoom(
           LatLng(gps.latitude, gps.longitude), 15)
     );
@@ -64,12 +67,11 @@ class _MapServiceState extends State<MapService> {
 
   }
 
-  Future<List<Marker>> getmarkers() async { //markers to place on map
+  Future<List<Marker>> getmarkers() async {
 
     List latLogi = List.generate(50, (i) => List.filled(2, null, growable: false));
     latLogi = [[37.510555, 127.1150512],[37.510555, 127.1080512],[37.513555, 127.1000],[39.9035, 116.388],
                                         [35.68288, 139.76991],[35.684879, 139.508178],[35.720863, 139.293221],[35.00088, 138.99991],[35.436081, 139.103529],[37.404704734328, 127.10535530866]];
-
 
 
       var gps = await getCurrentLocation();
@@ -87,6 +89,11 @@ class _MapServiceState extends State<MapService> {
     };
     // print('여기다지역거른거');
     // print(latlogiArea);
+
+
+    //위치 정보 가져오기
+
+    var userLatLong = DatabaseService(uid: '').selectUserLatLong(mCityArea);
 
 
     if( latlogiArea != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
@@ -116,15 +123,19 @@ class _MapServiceState extends State<MapService> {
   }
 
 
-
+// @override
+//   void dispose() {
+//     // TODO: implement dispose
+//     super.dispose();
+//   }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("google map")
-      ),
+      // appBar: AppBar(
+      //   title: Text("google map")
+      // ),
 
         body: GoogleMap(
           myLocationEnabled: true,  //내위치 지도에 표시
@@ -139,9 +150,9 @@ class _MapServiceState extends State<MapService> {
           markers: Set.from(markers),
           //markers.toSet(),
 
-          // 클릭한 위치가 중앙에 표시
+          //클릭한 위치가 중앙에 표시
           // onTap: (cordinate) {
-          //   _controller.animateCamera(CameraUpdate.newLatLng(cordinate));
+          //   _controller?.animateCamera(CameraUpdate.newLatLng(cordinate));
           //   addMarker(cordinate);
           // },
         ),
@@ -153,7 +164,7 @@ class _MapServiceState extends State<MapService> {
           Align(
             alignment: Alignment(
                 Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y),  //버튼 위치 지정
-            child: FloatingActionButton(
+            child: FloatingActionButton.small(
               onPressed: () => _locateMe(),    //버튼 눌렀을때 동작 함수
               tooltip: '내위치',                //버튼동작 설명 툴팁
               child: Icon(
@@ -166,7 +177,7 @@ class _MapServiceState extends State<MapService> {
           Align(
             alignment: Alignment(
                 Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.2), //보튼 위치 지정
-            child: FloatingActionButton(
+            child: FloatingActionButton.small(
               onPressed: () => getmarkers(),    //버튼 눌렀을때 동작 함수
               tooltip: '회원위치공유',            //버튼동작 설명 툴팁
               child: Icon(

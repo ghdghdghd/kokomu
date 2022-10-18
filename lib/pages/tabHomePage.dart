@@ -98,6 +98,7 @@ class _tabHomePageState extends State<tabHomePage> {
           ),
 
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),// 스와이프 없이 탭바 클릭으로만 동작
             children: [
               Center(
                 child: ChatPage(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),

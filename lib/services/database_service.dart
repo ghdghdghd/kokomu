@@ -20,6 +20,7 @@ class DatabaseService {
       'groups': [],
       'profilePic': '',
       'location': mCityArea,
+      'locationOpenStatus': "yes",
       'userLatitude': latitude,
       'userLongitude': longitude,
     });
@@ -29,6 +30,7 @@ class DatabaseService {
   Future updateLocation(String mCityArea, double latitude, double longitude) async {
     return await userCollection.doc(uid).update({
       'location' : mCityArea,
+      'meDivide' : "me",
       'userLatitude' : latitude,
       'userLongitude': longitude,
     });
@@ -165,4 +167,22 @@ class DatabaseService {
   searchByName(String groupName) {
     return FirebaseFirestore.instance.collection("groups").where('groupName', isEqualTo: groupName).get();
   }
+
+  //유저 좌표 가져오기
+  selectUserLatLong(String location) {
+    
+   var result = FirebaseFirestore.instance.collection("users").where('location', isEqualTo: location)
+                                                         .where("locationOpenStatus", isEqualTo: "yes" )
+                                                         .where("meDivide", isEqualTo: "user").get();
+
+    // if(result.docs.isNotEmpty) {
+    //   for (var doc in result.docs) {
+    //     print(doc['location']);
+    //   }
+    // }
+
+    return;
+  }
+  
+  
 }

@@ -8,6 +8,13 @@
         android:label="kokomu"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCHViDo59dAVbxn73gLH8auG6stHi7tOag" />
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
