@@ -169,19 +169,21 @@ class DatabaseService {
   }
 
   //유저 좌표 가져오기
-  selectUserLatLong(String location) {
-    
-   var result = FirebaseFirestore.instance.collection("users").where('location', isEqualTo: location)
+  selectUserLatLong(String location) async {
+
+    var result = await userCollection.where('location', isEqualTo: location)
                                                          .where("locationOpenStatus", isEqualTo: "yes" )
                                                          .where("meDivide", isEqualTo: "user").get();
 
-    // if(result.docs.isNotEmpty) {
-    //   for (var doc in result.docs) {
-    //     print(doc['location']);
-    //   }
-    // }
 
-    return;
+    print("여기보시라우");
+    if(result.docs.isNotEmpty) {
+      for (var doc in result.docs) {
+        print(doc['userLatitude']);
+      }
+    }
+
+    return result;
   }
   
   
