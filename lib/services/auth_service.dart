@@ -128,4 +128,29 @@ class AuthService {
       return null;
     }
   }
+  //위치 공개 여부 설정
+  Future updateLocationStatus(String email, String password, bool localPermission) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      print("여기는 updateLocationStatus");
+      print(result);
+      User? user = result.user;
+      print(user);
+      print(user!.uid);
+
+      if(localPermission == true){
+        await DatabaseService(uid: user.uid).updateLocationStatusYes();//위치 공유 킨다
+      }else if(localPermission == false){
+        await DatabaseService(uid: user.uid).updateLocationStatusNo();//위치 공유 끈다
+      }
+
+
+
+      return "updateLocationStatus sucess";
+    } catch(e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:group_chat_app/mapPage/mapService_page.dart';
+import 'package:group_chat_app/pages/settings.dart';
 
+import 'addCompanion.dart';
 import 'chat_page.dart';
 import 'companion.dart';
 
@@ -11,13 +13,18 @@ class tabHomePage extends StatefulWidget {
   final String groupId;
   final String userName;
   final String groupName;
+  final String email;
+  final String password;
 
 
   //const
    tabHomePage({
     required this.groupId,
     required this.userName,
-    required this.groupName});
+    required this.groupName,
+    required this.email,
+    required this.password,
+   });
       // : super(key: key);
 
   @override
@@ -51,10 +58,10 @@ class _tabHomePageState extends State<tabHomePage> {
               icon: Icon(Icons.notifications_outlined, size: 35,), // 환경설정 아이콘
               onPressed: () {
 
-             //   Navigator.push(
+               // Navigator.push(
                //  context,
-                //  MaterialPageRoute(builder: (context) => popNotice()),
-                //);
+               //   MaterialPageRoute(builder: (context) => popNotice()),
+               //  );
 
 
                 // showDialog(
@@ -81,10 +88,15 @@ class _tabHomePageState extends State<tabHomePage> {
               IconButton(
                 icon: Icon(Icons.settings_outlined, size: 35), // 설정 버튼
                 onPressed: () {
-                 // Navigator.push(
-                   // context,
-                 //   MaterialPageRoute(builder: (context) =>   ),
-                 // );
+                 Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) =>  settings(groupId: widget.groupId,
+                                                                     userName: widget.userName,
+                                                                     groupName: widget.groupName,
+                                                                     email: widget.email,
+                                                                     password: widget.password
+                                                                      )),
+                 );
                 },
               ),
               // IconButton(
@@ -104,7 +116,7 @@ class _tabHomePageState extends State<tabHomePage> {
                 child: ChatPage(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),
               ),
               Center(
-                child: MapService(),
+                child: MapService(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),
               ),
               Center(
                 child: companion(),

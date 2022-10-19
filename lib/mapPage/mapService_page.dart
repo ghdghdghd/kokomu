@@ -6,9 +6,15 @@ import 'package:geocoding/geocoding.dart';
 import 'package:group_chat_app/services/database_service.dart';
 
 class MapService extends StatefulWidget {
+  final String groupId;
+  final String userName;
+  final String groupName;
 
-
-  const MapService({Key? key}) : super(key: key);
+  const MapService({
+    required this.groupId,
+    required this.userName,
+    required this.groupName});
+     // : super(key: key);
 
   @override
   _MapServiceState createState() => _MapServiceState();
@@ -40,7 +46,7 @@ class _MapServiceState extends State<MapService> {
   }
 
   addMarker(cordinate) {
-    int id = Random().nextInt(100);
+    int id = Random().nextInt(1);
 
     setState(() {
       markers
@@ -93,27 +99,46 @@ class _MapServiceState extends State<MapService> {
 
     //위치 정보 가져오기
 
-    var userLatLong = DatabaseService(uid: '').selectUserLatLong(mCityArea);
+    List<dynamic> userInfo = await DatabaseService(uid: '').selectUserLatLong(mCityArea, widget.userName);
+    print("여기보세요");
+    print(userInfo);
+    print(userInfo.length);
 
-
-    if( latlogiArea != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
+    if( userInfo != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
       markers.addAll([
-        for(int a = 0; a < latlogiArea.length; a++)
+        for(int a = 0; a < userInfo.length; a++)
           Marker(
             markerId: MarkerId('who${a}'),                           //마커 아이디
-            position: LatLng(latlogiArea[a][0], latlogiArea[a][1]),  //마커의 위도경도
+            position: LatLng(userInfo[a][1], userInfo[a][2]),  //마커의 위도경도
             infoWindow: InfoWindow(
-              title: '회원${a + 1}',                                  //마커 정보
-              snippet: '부제',                                        //마커 정보 부제
+              title: userInfo[a][0],                                  //마커 정보
+              snippet: '',                                        //마커 정보 부제
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(             //마커 아이콘 색지정
                 BitmapDescriptor.hueRose),
 
           )
-
-
       ]);
     }
+
+    // if( latlogiArea != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
+    //   markers.addAll([
+    //     for(int a = 0; a < latlogiArea.length; a++)
+    //       Marker(
+    //         markerId: MarkerId('who${a}'),                           //마커 아이디
+    //         position: LatLng(latlogiArea[a][0], latlogiArea[a][1]),  //마커의 위도경도
+    //         infoWindow: InfoWindow(
+    //           title: '회원${a + 1}',                                  //마커 정보
+    //           snippet: '부제',                                        //마커 정보 부제
+    //         ),
+    //         icon: BitmapDescriptor.defaultMarkerWithHue(             //마커 아이콘 색지정
+    //             BitmapDescriptor.hueRose),
+    //
+    //       )
+    //
+    //
+    //   ]);
+    // }
 
     setState(() {
       markers;
@@ -151,10 +176,10 @@ class _MapServiceState extends State<MapService> {
           //markers.toSet(),
 
           //클릭한 위치가 중앙에 표시
-          // onTap: (cordinate) {
-          //   _controller?.animateCamera(CameraUpdate.newLatLng(cordinate));
-          //   addMarker(cordinate);
-          // },
+          onTap: (cordinate) {
+            _controller?.animateCamera(CameraUpdate.newLatLng(cordinate));
+            addMarker(cordinate);
+          },
         ),
 
 

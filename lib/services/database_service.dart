@@ -20,7 +20,7 @@ class DatabaseService {
       'groups': [],
       'profilePic': '',
       'location': mCityArea,
-      'locationOpenStatus': "yes",
+      'locationOpenStatus': "no",
       'userLatitude': latitude,
       'userLongitude': longitude,
     });
@@ -30,7 +30,7 @@ class DatabaseService {
   Future updateLocation(String mCityArea, double latitude, double longitude) async {
     return await userCollection.doc(uid).update({
       'location' : mCityArea,
-      'meDivide' : "me",
+      'loginStatus' : "yes",
       'userLatitude' : latitude,
       'userLongitude': longitude,
     });
@@ -169,21 +169,46 @@ class DatabaseService {
   }
 
   //유저 좌표 가져오기
-  selectUserLatLong(String location) async {
+  selectUserLatLong(String location, String userName) async {
 
     var result = await userCollection.where('location', isEqualTo: location)
                                                          .where("locationOpenStatus", isEqualTo: "yes" )
-                                                         .where("meDivide", isEqualTo: "user").get();
+                                                         .where("fullName", isNotEqualTo: userName)
+                                                         .where("loginStatus", isEqualTo: "yes").get();
+
+
+    List userInfo = List.generate(0, (i) => List.filled(3, null, growable: false));
 
 
     print("여기보시라우");
     if(result.docs.isNotEmpty) {
       for (var doc in result.docs) {
-        print(doc['userLatitude']);
+        // print(doc['userLatitude']);
+        // print("1111111111");
+        // print(doc['userLongitude']);
+        // print("1111111111");
+       // print(doc['fullName']);
+
+        userInfo.insert(0, [doc['fullName'], doc['userLatitude'], doc['userLongitude']]);
       }
     }
+    print(userInfo);
 
-    return result;
+    return userInfo;
+  }
+
+  updateLocationStatusYes() async {
+    return await userCollection.doc(uid).update({
+      'locationOpenStatus': "yes",
+
+    });
+  }
+
+  updateLocationStatusNo() async {
+    return await userCollection.doc(uid).update({
+      'locationOpenStatus': "no",
+
+    });
   }
   
   
