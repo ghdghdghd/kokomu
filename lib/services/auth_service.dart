@@ -45,12 +45,13 @@ class AuthService {
       print(user!.uid);
 
       var userInfo = await DatabaseService(uid: user.uid).selectUser(); //유저 정보 가져오기
-      var fullName = userInfo['fullName'];
+      // var fullName = userInfo['fullName'];
+      // var age = userInfo['age'];
 
       print("여기 유저풀네임은.......");
-      print(fullName);
+      print(userInfo);
 
-      return fullName;
+      return userInfo;
     } catch(e) {
       print(e.toString());
       return null;

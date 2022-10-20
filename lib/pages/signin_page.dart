@@ -64,6 +64,7 @@ class _SignInPageState extends State<SignInPage> {
       await _auth.signInWithEmailAndPassword(email, password, mCityArea, lati, longi).then((result) async {
         var groupId;
         var userName;
+        var age;
 
         print("result 검증");
         print(result);
@@ -96,7 +97,12 @@ class _SignInPageState extends State<SignInPage> {
           await _auth.selectUser(email, password).then((result) async {
             print("유저 정보 가져오기");
             print(result);
-            userName = result;
+            result['fullName'];
+
+            print(result['age']);
+            userName =  result['fullName'];
+            age = result['age'];
+
            });
 
           //위치 확인 그리고 방 참가 동작 // 유저네임 그룹네임
@@ -115,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
 
 
          //Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(groupId: groupId, userName: userName, groupName: mCityArea)));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => tabHomePage(groupId: groupId, userName: userName, groupName: mCityArea, email: email, password: password)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => tabHomePage(groupId: groupId, userName: userName, groupName: mCityArea, email: email, password: password, age: age)));
           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
         }
         else {

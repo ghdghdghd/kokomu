@@ -75,9 +75,9 @@ class _MapServiceState extends State<MapService> {
 
   Future<List<Marker>> getmarkers() async {
 
-    List latLogi = List.generate(50, (i) => List.filled(2, null, growable: false));
-    latLogi = [[37.510555, 127.1150512],[37.510555, 127.1080512],[37.513555, 127.1000],[39.9035, 116.388],
-                                        [35.68288, 139.76991],[35.684879, 139.508178],[35.720863, 139.293221],[35.00088, 138.99991],[35.436081, 139.103529],[37.404704734328, 127.10535530866]];
+    // List latLogi = List.generate(50, (i) => List.filled(2, null, growable: false));
+    //latLogi = [[37.510555, 127.1150512],[37.510555, 127.1080512],[37.513555, 127.1000],[39.9035, 116.388],
+    //                                    [35.68288, 139.76991],[35.684879, 139.508178],[35.720863, 139.293221],[35.00088, 138.99991],[35.436081, 139.103529],[37.404704734328, 127.10535530866]];
 
 
       var gps = await getCurrentLocation();
@@ -86,32 +86,31 @@ class _MapServiceState extends State<MapService> {
 
       List latlogiArea = [];
 
-     for(int y=0; y<latLogi.length; y++){
-       List<Placemark> info = await placemarkFromCoordinates(latLogi[y][0], latLogi[y][1]);
-       var CityArea = info[0].administrativeArea.toString();
-       if(mCityArea == CityArea){
-         latlogiArea.add([latLogi[y][0], latLogi[y][1]]);
-       }
-    };
-    // print('여기다지역거른거');
-    // print(latlogiArea);
 
 
     //위치 정보 가져오기
-
     List<dynamic> userInfo = await DatabaseService(uid: '').selectUserLatLong(mCityArea, widget.userName);
     print("여기보세요");
     print(userInfo);
-    print(userInfo.length);
 
-    if( userInfo != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
+    for(int y=0; y<userInfo.length; y++){
+      List<Placemark> info = await placemarkFromCoordinates(userInfo[y][1], userInfo[y][2]);
+      var CityArea = info[0].administrativeArea.toString();
+      if(mCityArea == CityArea){
+        latlogiArea.add([userInfo[y][0] , userInfo[y][1], userInfo[y][2]]);
+      }
+    };
+
+    print(latlogiArea);
+
+    if( latlogiArea != null) {   //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
       markers.addAll([
-        for(int a = 0; a < userInfo.length; a++)
+        for(int a = 0; a < latlogiArea.length; a++)
           Marker(
             markerId: MarkerId('who${a}'),                           //마커 아이디
-            position: LatLng(userInfo[a][1], userInfo[a][2]),  //마커의 위도경도
+            position: LatLng(latlogiArea[a][1], latlogiArea[a][2]),  //마커의 위도경도
             infoWindow: InfoWindow(
-              title: userInfo[a][0],                                  //마커 정보
+              title: latlogiArea[a][0],                                  //마커 정보
               snippet: '',                                        //마커 정보 부제
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(             //마커 아이콘 색지정

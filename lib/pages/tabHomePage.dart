@@ -15,6 +15,7 @@ class tabHomePage extends StatefulWidget {
   final String groupName;
   final String email;
   final String password;
+  final String age;
 
 
   //const
@@ -24,6 +25,7 @@ class tabHomePage extends StatefulWidget {
     required this.groupName,
     required this.email,
     required this.password,
+    required this.age
    });
       // : super(key: key);
 
@@ -94,7 +96,8 @@ class _tabHomePageState extends State<tabHomePage> {
                                                                      userName: widget.userName,
                                                                      groupName: widget.groupName,
                                                                      email: widget.email,
-                                                                     password: widget.password
+                                                                     password: widget.password,
+                                                                     age: widget.age
                                                                       )),
                  );
                 },

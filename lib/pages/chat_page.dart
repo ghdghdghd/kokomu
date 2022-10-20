@@ -21,28 +21,31 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  
-  late Stream<QuerySnapshot> _chats;
+
+  Stream<QuerySnapshot>? _chats;
   TextEditingController messageEditingController = new TextEditingController();
 
   Widget _chatMessages(){
-    return StreamBuilder(
-      stream: _chats,
-      builder: (context, snapshot){
-        return snapshot.hasData ?  ListView.builder(
-            //(snapshot.data! as QuerySnapshot)
-          itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-          itemBuilder: (context, index){
-            return MessageTile(
-              message: (snapshot.data! as QuerySnapshot).docs[index].get("message"), //검증요
-              sender: (snapshot.data! as QuerySnapshot).docs[index].get("sender"),                           //data()["sender"],
-              sentByMe: widget.userName == (snapshot.data! as QuerySnapshot).docs[index].get("sender")     //data()["sender"],
-            );
-          }
-        )
-        :
-        Container();
-      },
+    return Container(
+      height: 415,
+      child: StreamBuilder(
+        stream: _chats,
+        builder: (context, snapshot){
+          return snapshot.hasData ?  ListView.builder(
+              //(snapshot.data! as QuerySnapshot)
+            itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+            itemBuilder: (context, index){
+              return MessageTile(
+                message: (snapshot.data! as QuerySnapshot).docs[index].get("message"), //검증요
+                sender: (snapshot.data! as QuerySnapshot).docs[index].get("sender"),                           //data()["sender"],
+                sentByMe: widget.userName == (snapshot.data! as QuerySnapshot).docs[index].get("sender")     //data()["sender"],
+              );
+            }
+          )
+          :
+          Container();
+        },
+      ),
     );
   }
 
