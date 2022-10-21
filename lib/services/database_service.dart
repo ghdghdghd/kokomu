@@ -3,17 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
 
   final String uid;
+
   DatabaseService({
     required this.uid
   });
 
   // Collection reference
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
-  final CollectionReference groupCollection = FirebaseFirestore.instance.collection('groups');
+  final CollectionReference userCollection = FirebaseFirestore.instance
+      .collection('users');
+  final CollectionReference groupCollection = FirebaseFirestore.instance
+      .collection('groups');
 
   // update userdata
-  Future updateUserData(String fullName, String email, String password, String mCityArea, double latitude, double longitude) async {
+  Future updateUserData(String fullName, String email, String password,
+      String mCityArea, double latitude, double longitude, String age) async {
     return await userCollection.doc(uid).set({
+      'age': age,
       'fullName': fullName,
       'email': email,
       'password': password,
@@ -27,25 +32,26 @@ class DatabaseService {
   }
 
   // location 데이터 업데이트
-  Future updateLocation(String mCityArea, double latitude, double longitude) async {
+  Future updateLocation(String mCityArea, double latitude,
+      double longitude) async {
     return await userCollection.doc(uid).update({
-      'location' : mCityArea,
-      'loginStatus' : "yes",
-      'userLatitude' : latitude,
+      'location': mCityArea,
+      'loginStatus': "yes",
+      'userLatitude': latitude,
       'userLongitude': longitude,
     });
   }
 
   // 위치 정보 활용하여 그룹ID 가져오기
   Future selectGroupId() async {
-     var result = await groupCollection.doc(uid).get();
-      print("데이터베이스서비스 셀렉트그룹아이디");
-      print(result);
+    var result = await groupCollection.doc(uid).get();
+    print("데이터베이스서비스 셀렉트그룹아이디");
+    print(result);
     return result;
   }
 
   // user정보 가져오기
-  Future  selectUser() async {
+  Future selectUser() async {
     var result = await userCollection.doc(uid).get();
     print("데이터베이스 셀렉트유저");
     print(result);
@@ -67,8 +73,8 @@ class DatabaseService {
     });
 
     await groupDocRef.update({
-        'members': FieldValue.arrayUnion([uid + '_' + userName]),
-        'groupId': groupDocRef.id
+      'members': FieldValue.arrayUnion([uid + '_' + userName]),
+      'groupId': groupDocRef.id
     });
 
     DocumentReference userDocRef = userCollection.doc(uid);
@@ -79,8 +85,8 @@ class DatabaseService {
 
 
   // toggling the user group join
-  Future togglingGroupJoin(String groupId, String groupName, String userName) async {
-
+  Future togglingGroupJoin(String groupId, String groupName,
+      String userName) async {
     DocumentReference userDocRef = userCollection.doc(uid);
     DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
@@ -88,7 +94,7 @@ class DatabaseService {
 
     List<dynamic> groups = await userDocSnapshot.get('groups'); //검증 요
 
-    if(groups.contains(groupId + '_' + groupName)) {
+    if (groups.contains(groupId + '_' + groupName)) {
       //print('hey');
       await userDocRef.update({
         'groups': FieldValue.arrayRemove([groupId + '_' + groupName])
@@ -112,15 +118,15 @@ class DatabaseService {
 
 
   // has user joined the group
-  Future<bool> isUserJoined(String groupId, String groupName, String userName) async {
-
+  Future<bool> isUserJoined(String groupId, String groupName,
+      String userName) async {
     DocumentReference userDocRef = userCollection.doc(uid);
     DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
     List<dynamic> groups = await userDocSnapshot.get('groups'); //검증 용
 
-    
-    if(groups.contains(groupId + '_' + groupName)) {
+
+    if (groups.contains(groupId + '_' + groupName)) {
       //print('he');
       return true;
     }
@@ -133,7 +139,8 @@ class DatabaseService {
 
   // get user data
   Future getUserData(String email) async {
-    QuerySnapshot snapshot = await userCollection.where('email', isEqualTo: email).get();
+    QuerySnapshot snapshot = await userCollection.where(
+        'email', isEqualTo: email).get();
     print(snapshot.docs[0].data);
     return snapshot;
   }
@@ -148,7 +155,8 @@ class DatabaseService {
 
   // send message
   sendMessage(String groupId, chatMessageData) {
-    FirebaseFirestore.instance.collection('groups').doc(groupId).collection('messages').add(chatMessageData);
+    FirebaseFirestore.instance.collection('groups').doc(groupId).collection(
+        'messages').add(chatMessageData);
     FirebaseFirestore.instance.collection('groups').doc(groupId).update({
       'recentMessage': chatMessageData['message'],
       'recentMessageSender': chatMessageData['sender'],
@@ -159,37 +167,41 @@ class DatabaseService {
 
   // get chats of a particular group
   getChats(String groupId) async {
-    return FirebaseFirestore.instance.collection('groups').doc(groupId).collection('messages').orderBy('time').snapshots();
+    return FirebaseFirestore.instance.collection('groups').doc(groupId)
+        .collection('messages').orderBy('time')
+        .snapshots();
   }
 
 
   // search groups
   searchByName(String groupName) {
-    return FirebaseFirestore.instance.collection("groups").where('groupName', isEqualTo: groupName).get();
+    return FirebaseFirestore.instance.collection("groups").where(
+        'groupName', isEqualTo: groupName).get();
   }
 
   //유저 좌표 가져오기
   selectUserLatLong(String location, String userName) async {
-
     var result = await userCollection.where('location', isEqualTo: location)
-                                                         .where("locationOpenStatus", isEqualTo: "yes" )
-                                                         .where("fullName", isNotEqualTo: userName)
-                                                         .where("loginStatus", isEqualTo: "yes").get();
+        .where("locationOpenStatus", isEqualTo: "yes")
+        .where("fullName", isNotEqualTo: userName)
+        .where("loginStatus", isEqualTo: "yes").get();
 
 
-    List userInfo = List.generate(0, (i) => List.filled(3, null, growable: false));
+    List userInfo = List.generate(
+        0, (i) => List.filled(3, null, growable: false));
 
 
     print("여기보시라우");
-    if(result.docs.isNotEmpty) {
+    if (result.docs.isNotEmpty) {
       for (var doc in result.docs) {
         // print(doc['userLatitude']);
         // print("1111111111");
         // print(doc['userLongitude']);
         // print("1111111111");
-       // print(doc['fullName']);
+        // print(doc['fullName']);
 
-        userInfo.insert(0, [doc['fullName'], doc['userLatitude'], doc['userLongitude']]);
+        userInfo.insert(
+            0, [doc['fullName'], doc['userLatitude'], doc['userLongitude']]);
       }
     }
     print(userInfo);
@@ -210,6 +222,12 @@ class DatabaseService {
 
     });
   }
-  
-  
+
+  logoutupdate() async {
+    return await userCollection.doc(uid).update({
+      'locationOpenStatus': "no",
+      'loginStatus': "",
+
+    });
+  }
 }

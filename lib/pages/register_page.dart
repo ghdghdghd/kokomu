@@ -19,6 +19,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final _valueList  =  ['20대', '30대', '40대', '50대', '60대', '70대', '80대'];
+  var _selectedValue;
+
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -28,6 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String email = '';
   String password = '';
   String error = '';
+  String age = '';
 
   Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -51,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _isLoading = true;
       });
 
-      await _auth.registerWithEmailAndPassword(fullName, email, password, mCityArea, lati, longi).then((result) async {
+      await _auth.registerWithEmailAndPassword(fullName, email, password, mCityArea, lati, longi, age).then((result) async {
         if (result != null) {
           print("계정가입 함수 _onRegister");
           print(result);
@@ -182,6 +186,46 @@ class _RegisterPageState extends State<RegisterPage> {
                       });
                     },
                   ),
+
+                  //나이대 설정
+                  SizedBox(height: 15.0),
+                  DropdownButton(
+                    hint: Text('나이대를 선택해주세요'),
+                    value: _selectedValue,
+                    items: _valueList.map((value) {
+                      return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                    onChanged: (value) {
+                    print(value);
+                    setState(() {
+                      _selectedValue  = value;
+
+                   });
+                    age = _selectedValue;
+                    print(age);
+                }),
+
+
+
+
+                  // TextFormField(
+                  //   style: TextStyle(color: Colors.black),
+                  //   //decoration: textInputDecoration.copyWith(labelText: 'Full Name'),
+                  //   decoration: InputDecoration(
+                  //     hintText: 'Name',
+                  //     enabledBorder: OutlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.black)
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.black)
+                  //     ),
+                  //   ),
+                  //   onChanged: (val) {
+                  //     setState(() {
+                  //       fullName =  val;
+                  //     });
+                  //   },
+                  // ),
 
                   SizedBox(height: 20.0),
                     
