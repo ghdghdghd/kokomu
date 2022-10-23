@@ -21,7 +21,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-
+  var status = false;
+  ScrollController? _ScrollController; //= ScrollController();
   Stream<QuerySnapshot>? _chats;
   TextEditingController messageEditingController = new TextEditingController();
 
@@ -32,6 +33,7 @@ class _ChatPageState extends State<ChatPage> {
         stream: _chats,
         builder: (context, snapshot){
           return snapshot.hasData ?  ListView.builder(
+           // controller: _ScrollController,
               //(snapshot.data! as QuerySnapshot)
             itemCount: (snapshot.data! as QuerySnapshot).docs.length,
             itemBuilder: (context, index){
@@ -51,6 +53,7 @@ class _ChatPageState extends State<ChatPage> {
 
   _sendMessage() {
     if (messageEditingController.text.isNotEmpty) {
+      _ScrollController!.animateTo(_ScrollController!.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
       Map<String, dynamic> chatMessageMap = {
         "message": messageEditingController.text,
         "sender": widget.userName,
@@ -70,11 +73,19 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     DatabaseService(uid: '').getChats(widget.groupId).then((val) {
       // print(val);
+      _ScrollController = ScrollController();
       setState(() {
         _chats = val;
       });
     });
   }
+
+
+  // @override
+  // void dispose() {
+  //   _ScrollController?.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +111,12 @@ class _ChatPageState extends State<ChatPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
+                        onTap: () {
+                          _ScrollController?.animateTo(
+                              1000.0,
+                              duration: Duration(milliseconds: 100),
+                              curve: Curves.ease);
+                        },
                         controller: messageEditingController,
                         style: TextStyle(
                           color: Colors.white
