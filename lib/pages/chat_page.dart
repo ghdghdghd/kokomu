@@ -21,8 +21,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  var status = false;
-  ScrollController? _ScrollController; //= ScrollController();
+
+  ScrollController? _ScrollController = ScrollController();
   Stream<QuerySnapshot>? _chats;
   TextEditingController messageEditingController = new TextEditingController();
 
@@ -33,18 +33,17 @@ class _ChatPageState extends State<ChatPage> {
         stream: _chats,
         builder: (context, snapshot){
           return snapshot.hasData ?  ListView.builder(
-           // controller: _ScrollController,
-              //(snapshot.data! as QuerySnapshot)
-            itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-            itemBuilder: (context, index){
-              return MessageTile(
-                message: (snapshot.data! as QuerySnapshot).docs[index].get("message"), //검증요
-                sender: (snapshot.data! as QuerySnapshot).docs[index].get("sender"),                           //data()["sender"],
-                sentByMe: widget.userName == (snapshot.data! as QuerySnapshot).docs[index].get("sender")     //data()["sender"],
-              );
-            }
+            //(snapshot.data! as QuerySnapshot)
+              itemCount: (snapshot.data! as QuerySnapshot).docs.length,
+              itemBuilder: (context, index){
+                return MessageTile(
+                    message: (snapshot.data! as QuerySnapshot).docs[index].get("message"), //검증요
+                    sender: (snapshot.data! as QuerySnapshot).docs[index].get("sender"),                           //data()["sender"],
+                    sentByMe: widget.userName == (snapshot.data! as QuerySnapshot).docs[index].get("sender")     //data()["sender"],
+                );
+              }
           )
-          :
+              :
           Container();
         },
       ),
@@ -53,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
 
   _sendMessage() {
     if (messageEditingController.text.isNotEmpty) {
-      _ScrollController!.animateTo(_ScrollController!.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+
       Map<String, dynamic> chatMessageMap = {
         "message": messageEditingController.text,
         "sender": widget.userName,
@@ -71,21 +70,14 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    //_ScrollController = ScrollController();
     DatabaseService(uid: '').getChats(widget.groupId).then((val) {
       // print(val);
-      _ScrollController = ScrollController();
       setState(() {
         _chats = val;
       });
     });
   }
-
-
-  // @override
-  // void dispose() {
-  //   _ScrollController?.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,23 +103,23 @@ class _ChatPageState extends State<ChatPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        onTap: () {
-                          _ScrollController?.animateTo(
-                              1000.0,
-                              duration: Duration(milliseconds: 100),
-                              curve: Curves.ease);
-                        },
+                        // onTap: () {
+                        //   _ScrollController?.animateTo(
+                        //       1000.0,
+                        //       duration: Duration(milliseconds: 100),
+                        //       curve: Curves.ease);
+                        // },
                         controller: messageEditingController,
                         style: TextStyle(
-                          color: Colors.white
+                            color: Colors.white
                         ),
                         decoration: InputDecoration(
-                          hintText: "Send a message ...",
-                          hintStyle: TextStyle(
-                            color: Colors.white38,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none
+                            hintText: "Send a message ...",
+                            hintStyle: TextStyle(
+                              color: Colors.white38,
+                              fontSize: 16,
+                            ),
+                            border: InputBorder.none
                         ),
                       ),
                     ),
@@ -142,8 +134,8 @@ class _ChatPageState extends State<ChatPage> {
                         height: 50.0,
                         width: 50.0,
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(50)
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(50)
                         ),
                         child: Center(child: Icon(Icons.send, color: Colors.white)),
                       ),

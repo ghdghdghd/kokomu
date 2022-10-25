@@ -146,7 +146,54 @@ class _MapServiceState extends State<MapService> {
     return markers;
   }
 
+  Future<List<Marker>> getRestaurantMarkers() async {
 
+    List foodLatLogi = List.generate(
+        0, (i) => List.filled(3, null, growable: false));
+
+    //List foodLatLogi = List.generate(50, (i) => List.filled(2, null, growable: false));
+    foodLatLogi = [["카도식당", 37.516990, 127.112130],["산들해", 37.516833, 127.113083],["몽중헌 방이점", 37.516722, 127.113528],["토키야두번째이야기",37.516444, 127.113250],
+                                       ["미미충무김밥", 37.515990, 127.112330],["어양", 37.516556, 127.113972],["버거킹", 37.516972, 127.112583],["가일", 37.515556, 127.113500], ["차고버거", 37.515500, 127.114000],["청치킨", 37.515361, 127.113194],["할머니포장마차", 37.51524, 127.11356] ];
+
+
+   // List latlogiArea = [];
+    print("foodLatLogifoodLatLogifoodLatLogifoodLatLogifoodLatLogi");
+    print(foodLatLogi.length);
+
+      //현재 같은 도시에 있는 회원이 있다면  마커추가 폼을 반복문을 실행 한다
+      markers.addAll([
+        for(int x = 0; x < foodLatLogi.length; x++)
+          Marker(
+            markerId: MarkerId('who${x}'),                           //마커 아이디
+            position: LatLng(foodLatLogi[x][1], foodLatLogi[x][2]),  //마커의 위도경도
+            infoWindow: InfoWindow(
+              title: foodLatLogi[x][0],                                  //마커 정보
+              snippet: '',                                        //마커 정보 부제
+            ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(             //마커 아이콘 색지정
+                BitmapDescriptor.hueGreen),
+
+          )
+      ]);
+
+    setState(() {
+      markers;
+    });
+
+    return markers;
+  }
+
+
+    List<Marker> getmarkerClear() {
+      print("마커 삭제");
+      markers.clear();
+
+      setState(() {
+        markers;
+      });
+
+      return  markers;
+    }
 // @override
 //   void dispose() {
 //     // TODO: implement dispose
@@ -210,7 +257,52 @@ class _MapServiceState extends State<MapService> {
               ),
               backgroundColor: Colors.white,    //버튼 배경색 지정
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment(
+                Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.4), //보튼 위치 지정
+            child: FloatingActionButton.small(
+              onPressed: () => getRestaurantMarkers(),    //버튼 눌렀을때 동작 함수
+              tooltip: '근처 식당',            //버튼동작 설명 툴팁
+              child: Icon(
+                Icons.restaurant_menu
+                ,             //버튼 아이콘 지정
+                color: Colors.black,            //버튼 아이콘색 지정
+              ),
+              backgroundColor: Colors.white,    //버튼 배경색 지정
+            ),
+          ),
+          Align(
+            alignment: Alignment(
+                Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.6), //보튼 위치 지정
+            child: FloatingActionButton.small(
+
+              onPressed: () => getmarkers(),    //버튼 눌렀을때 동작 함수
+              tooltip: '근처 마트',            //버튼동작 설명 툴팁
+              child: Icon(
+                Icons.shopping_cart
+                ,             //버튼 아이콘 지정
+                color: Colors.black,            //버튼 아이콘색 지정
+              ),
+              backgroundColor: Colors.white,    //버튼 배경색 지정
+            ),
+          ),
+          Align(
+            alignment: Alignment(
+                Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.8), //보튼 위치 지정
+            child: FloatingActionButton.small(
+
+              onPressed: () => getmarkerClear(),    //버튼 눌렀을때 동작 함수
+              tooltip: '근처 마트',
+              //icon: Icon(Icons.add_box),            //버튼동작 설명 툴팁
+              // child: Icon(
+              //   Icons.add_box
+              //   ,             //버튼 아이콘 지정
+              //   color: Colors.black,            //버튼 아이콘색 지정
+              // ),
+               backgroundColor: Colors.white,    //버튼 배경색 지정
+            ),
+          ),
         ],
       ),
 
