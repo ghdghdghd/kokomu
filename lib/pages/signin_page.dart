@@ -121,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
 
 
          //Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(groupId: groupId, userName: userName, groupName: mCityArea)));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => tabHomePage(groupId: groupId, userName: userName, groupName: mCityArea, email: email, password: password, age: age)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => tabHomePage(groupId: groupId, userName: userName, groupName: mCityArea, email: email, password: password, age: age, status: '',)));
           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
         }
         else {

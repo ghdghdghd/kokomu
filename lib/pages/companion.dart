@@ -7,7 +7,24 @@ import 'companionDetail.dart';
 
 
 class companion extends StatefulWidget {
-  const companion({Key? key}) : super(key: key);
+  final String groupId;
+  final String userName;
+  final String groupName;
+  final String email;
+  final String password;
+  final String age;
+  final String status;
+
+  const companion({
+    required this.groupId,
+    required this.userName,
+    required this.groupName,
+    required this.email,
+    required this.password,
+    required this.age,
+    required this.status
+}) ; //
+// : super(key: key);
 
   @override
   State<companion> createState() => _companionState();
@@ -18,10 +35,7 @@ class _companionState extends State<companion> {
   var simpleTitle = ["칸 동행 구해요", "맛집동행 구해요", "그라나다 동행 구해요"];
   var country = ["칸(프랑스)", "베네치아(이탈리아)", "그라나다(스페인)"];
   var day = ["2022.01.03-2022.01.20", "2022.01.03-2022.01.20", "2022.01.03-2022.01.20"];
-  var searchTag = ["#모든성별#모든나이#관광지투어", "#여성만#20대#맛집투어", "#남성만#30대#"
-      ""
-      ""
-      "2맛집투어"];
+  var searchTag = ["#모든성별#모든나이#관광지투어", "#여성만#20대#맛집투어", "#남성만#30대#맛집투어"];
   
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,7 @@ class _companionState extends State<companion> {
           onPressed: () {
             Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => addCompanion())
+                    MaterialPageRoute(builder: (context) => addCompanion(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age, status: '',))
             );
 
           },
@@ -70,9 +84,12 @@ class _companionState extends State<companion> {
                       ),
                     ),
                   ),
-                )
+                ),
+
               ],
             );
+
+
 
           }
       ),

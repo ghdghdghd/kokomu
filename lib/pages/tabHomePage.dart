@@ -16,6 +16,7 @@ class tabHomePage extends StatefulWidget {
   final String email;
   final String password;
   final String age;
+  final String status;
 
 
   //const
@@ -25,7 +26,8 @@ class tabHomePage extends StatefulWidget {
     required this.groupName,
     required this.email,
     required this.password,
-    required this.age
+    required this.age,
+    required this.status
    });
       // : super(key: key);
 
@@ -44,6 +46,7 @@ class _tabHomePageState extends State<tabHomePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
+        initialIndex: 2,
         length: 3,
         child: Scaffold(
           appBar: AppBar(
@@ -113,7 +116,8 @@ class _tabHomePageState extends State<tabHomePage> {
           ),
 
           body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),// 스와이프 없이 탭바 클릭으로만 동작
+            physics: NeverScrollableScrollPhysics(),
+            // 스와이프 없이 탭바 클릭으로만 동작
             children: [
               Center(
                 child: ChatPage(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),
@@ -122,7 +126,7 @@ class _tabHomePageState extends State<tabHomePage> {
                 child: MapService(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),
               ),
               Center(
-                child: companion(),
+                child: companion(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age, status: widget.status),
               ),
 
             ],
