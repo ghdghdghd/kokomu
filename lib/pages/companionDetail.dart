@@ -1,16 +1,35 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:group_chat_app/pages/myCompanionChat.dart';
 
 
 class companionDetail extends StatefulWidget {
-  const companionDetail({Key? key}) : super(key: key);
+
+  final String simpleTitle;
+  final String country;
+  final String day;
+  final String searchTag;
+  final String Personnel;
+  final String contents;
+
+  const companionDetail({
+    required this.simpleTitle,
+    required this.country,
+    required this.day,
+    required this.searchTag,
+    required this.Personnel,
+    required this.contents,
+}); //: super(key: key);
+
 
   @override
   State<companionDetail> createState() => _companionDetailState();
 }
 
 class _companionDetailState extends State<companionDetail> {
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +63,34 @@ class _companionDetailState extends State<companionDetail> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("간단한 제목"),
-                        Text("지역명"),
+                        Text(widget.simpleTitle, style: TextStyle(fontSize: 25)),
+                        SizedBox(height: 30.0),
+                        Row(
+                          children: [
+                            Icon(Icons.public),
+                            SizedBox(width: 10.0),
+                            Text(widget.country, style: TextStyle(fontSize: 20)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_month),
+                            SizedBox(width: 10.0),
+                            Text(widget.day, style: TextStyle(fontSize: 20)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.groups),
+                            SizedBox(width: 10.0),
+                            Text(widget.Personnel, style: TextStyle(fontSize: 20)),
+                          ],
+                        ),
+                        Text(widget.searchTag, style: TextStyle(fontSize: 20)),
+                        SizedBox(height: 50.0),
+                        Text(widget.contents, style: TextStyle(fontSize: 20)),
+
+
                       ],
 
 
@@ -64,41 +109,54 @@ class _companionDetailState extends State<companionDetail> {
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
                        SizedBox(//버튼 사이즈 조절
-                         width: 260,
+                         width: 300, //260,
                          child: TextButton(
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                    backgroundColor: MaterialStateProperty.all(Colors.tealAccent),
 
                                 ),
 
                                 onPressed: () {
-
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext ctx){
+                                        return AlertDialog(
+                                          content: Text("동행에 참여 하였습니다"),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text("확인"))
+                                          ],
+                                        );
+                                      });
                                 },
                                 child: Text("동행 함께 하기",style: TextStyle(color: Colors.black)),
 
                          ),
                        ),
-                       SizedBox(
-                         width: 30,
-                         child: IconButton(
-                             onPressed: () {
-                               showDialog(
-                                   context: context,
-                                   barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-                                   builder: (BuildContext context) {
-                                     return AlertDialog(
-                                       content: popNotice(),
-                                       insetPadding: const  EdgeInsets.fromLTRB(0,200,0, 200),
-                                       actions: [
-
-                                       ],
-                                     );
-                                   }
-                               );
-                             },
-                             icon: Icon(Icons.report_outlined))
-
-                       )
+                       // SizedBox(
+                       //   width: 30,
+                       //   child: IconButton(
+                       //       onPressed: () {
+                       //         showDialog(
+                       //             context: context,
+                       //             barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                       //             builder: (BuildContext context) {
+                       //               return AlertDialog(
+                       //                 content: popNotice(),
+                       //                 insetPadding: const  EdgeInsets.fromLTRB(0,200,0, 200),
+                       //                 actions: [
+                       //
+                       //                 ],
+                       //               );
+                       //             }
+                       //         );
+                       //       },
+                       //       icon: Icon(Icons.report_outlined))
+                       //
+                       // )
                      ],
                    ),
                  ),

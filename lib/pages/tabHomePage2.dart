@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_chat_app/mapPage/mapService_page.dart';
+import 'package:group_chat_app/pages/companion2.dart';
 import 'package:group_chat_app/pages/settings.dart';
 
 import 'addCompanion.dart';
@@ -9,7 +10,7 @@ import 'companion.dart';
 
 
 
-class tabHomePage extends StatefulWidget {
+class tabHomePage2 extends StatefulWidget {
   final String groupId;
   final String userName;
   final String groupName;
@@ -18,26 +19,24 @@ class tabHomePage extends StatefulWidget {
   final String age;
 
 
-
   //const
-   tabHomePage({
+   tabHomePage2({
     required this.groupId,
     required this.userName,
     required this.groupName,
     required this.email,
     required this.password,
-    required this.age,
-
+    required this.age
    });
-      // : super(key: key);
+       //: super(key: key);
 
   @override
-  State<tabHomePage> createState() => _tabHomePageState();
+  State<tabHomePage2> createState() => _tabHomePage2State();
 }
 
 
 
-class _tabHomePageState extends State<tabHomePage> {
+class _tabHomePage2State extends State<tabHomePage2> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -46,6 +45,7 @@ class _tabHomePageState extends State<tabHomePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
+        initialIndex: 2,
         length: 3,
         child: Scaffold(
           appBar: AppBar(
@@ -125,7 +125,7 @@ class _tabHomePageState extends State<tabHomePage> {
                 child: MapService(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName),
               ),
               Center(
-                child: companion(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age),
+                child: companion2(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age),
               ),
 
             ],

@@ -16,7 +16,7 @@ class addCompanion extends StatefulWidget {
   final String email;
   final String password;
   final String age;
-  final String status;
+
 
   const addCompanion({
     required this.groupId,
@@ -25,7 +25,7 @@ class addCompanion extends StatefulWidget {
     required this.email,
     required this.password,
     required this.age,
-    required this.status
+
 
 });
   //: super(key: key);
@@ -173,7 +173,7 @@ class _addCompanionState extends State<addCompanion> {
                     Container(
                       child: ElevatedButton(
                         onPressed: () => setState(() => _flagAll = !_flagAll),
-                        child: Text("모두"),
+                        child: Text("모든성별"),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _flagAll ? Colors.blueAccent : Colors.indigo,
                         ),
@@ -211,7 +211,7 @@ class _addCompanionState extends State<addCompanion> {
                     Container(
                       child: ElevatedButton(
                         onPressed: () => setState(() => _flag = !_flag),
-                        child: Text("전체연령"),
+                        child: Text("모든연령"),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _flag ? Colors.blueAccent : Colors.indigo,
                         ),
@@ -239,7 +239,7 @@ class _addCompanionState extends State<addCompanion> {
                     Container(
                       child: ElevatedButton(
                         onPressed: () => setState(() => _flagT = !_flagT),
-                        child: Text("관광동행"),
+                        child: Text("관광지동행"),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _flagT ? Colors.blueAccent : Colors.indigo,
                         ),
@@ -313,7 +313,7 @@ class _addCompanionState extends State<addCompanion> {
                       onPressed: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => tabHomePage2()));
+                            MaterialPageRoute(builder: (context) => tabHomePage2(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age)));
 
                       },
                       child: Text("등  록",style: TextStyle(fontSize: 18,color: Colors.black)),
