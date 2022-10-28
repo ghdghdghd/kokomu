@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:group_chat_app/pages/myCompanionChat2.dart';
 import 'package:group_chat_app/services/database_service.dart';
 import 'package:group_chat_app/widgets/message_tile.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class ChatPage extends StatefulWidget {
+class myCompanionChatDetail extends StatefulWidget {
 
   final String groupId;
   final String userName;
   final String groupName;
 
-  ChatPage({
+  myCompanionChatDetail({
     required this.groupId,
     required this.userName,
     required this.groupName
   });
 
-
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _myCompanionChatDetailState createState() => _myCompanionChatDetailState();
 }
 
-class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
+class _myCompanionChatDetailState extends State<myCompanionChatDetail> {
 
   ScrollController? _ScrollController = ScrollController();
   Stream<QuerySnapshot>? _chats;
@@ -29,7 +29,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin 
 
   Widget _chatMessages(){
     return Container(
-      height: 415,
+      height: 540,
       child: StreamBuilder(
         stream: _chats,
         builder: (context, snapshot){
@@ -67,9 +67,6 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin 
       });
     }
   }
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -91,6 +88,19 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin 
         centerTitle: true,
         backgroundColor: Colors.black87,
         elevation: 0.0,
+        actions: [
+          TextButton(
+              onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => myCompanionChat2(groupId: "", userName: "", groupName: "", email: "", password: "", age: ""))
+                    );
+              },
+              child: Text("나가기"),
+
+          )
+        ],
+
       ),
       body: Container(
         child: Stack(
@@ -153,6 +163,4 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin 
       ),
     );
   }
-
-
 }

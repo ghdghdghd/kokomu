@@ -3,6 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:group_chat_app/pages/myCompanionChatDetail.dart';
 import 'package:group_chat_app/pages/tabHomePage.dart';
 import 'package:group_chat_app/pages/tabHomePage2.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -36,12 +37,12 @@ class myCompanionChat extends StatefulWidget {
 
 class _myCompanionChatState extends State<myCompanionChat> {
 
-  var simpleTitle = ["맛집동행 구해요"];
-  var country = ["베네치아(이탈리아)"];
-  var day = ["2022.01.03-2022.01.20"];
-  var searchTag = ["#여성만#20대만#맛집동행"];
-  var Personnel = ["3/2"];
-  var contents = ["안녕하세요~\n베니치아 동행 구해요"];
+  var simpleTitle = ["칸 동행 구해요"];
+  var country = ["칸(프랑스)"];
+  var day = ["2023.01.03-2023.01.20"];
+  var searchTag = ["#모든성별#모든연령#관광지동행"];
+  var Personnel = ["4/3"];
+  var contents = ["안녕하세요~\n칸 동행 구해요"];
 
 
   @override
@@ -50,6 +51,8 @@ class _myCompanionChatState extends State<myCompanionChat> {
 
       child: Scaffold(
         appBar: AppBar(
+            title: Text("나의 동행",style: TextStyle(color: Colors.black)),
+            centerTitle: true,
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -57,7 +60,8 @@ class _myCompanionChatState extends State<myCompanionChat> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back_ios))
+                icon: Icon(Icons.arrow_back_ios)),
+
         ),
         body: ListView.builder(
             itemCount: 1,
@@ -66,10 +70,10 @@ class _myCompanionChatState extends State<myCompanionChat> {
                 children: [
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => companionDetail(simpleTitle: simpleTitle[i], country: country[i], day: day[i], searchTag: searchTag[i], Personnel:Personnel[i], contents: contents[i]))
-                      // );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => myCompanionChatDetail(groupId: "5PalVpTh2esmJpHrXVYY", userName: widget.userName, groupName: "칸 동행 구해요"))
+                      );
 
                     },
                     child: Card(

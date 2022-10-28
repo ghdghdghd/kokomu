@@ -22,7 +22,7 @@ class MapService extends StatefulWidget {
 
 
 
-class _MapServiceState extends State<MapService> {
+class _MapServiceState extends State<MapService> with AutomaticKeepAliveClientMixin {
 
 
 
@@ -199,7 +199,15 @@ class _MapServiceState extends State<MapService> {
 //     // TODO: implement dispose
 //     super.dispose();
 //   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -272,34 +280,34 @@ class _MapServiceState extends State<MapService> {
               backgroundColor: Colors.white,    //버튼 배경색 지정
             ),
           ),
+          // Align(
+          //   alignment: Alignment(
+          //       Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.6), //보튼 위치 지정
+          //   child: FloatingActionButton.small(
+          //
+          //     onPressed: () => getmarkers(),    //버튼 눌렀을때 동작 함수
+          //     tooltip: '근처 마트',            //버튼동작 설명 툴팁
+          //     child: Icon(
+          //       Icons.shopping_cart
+          //       ,             //버튼 아이콘 지정
+          //       color: Colors.black,            //버튼 아이콘색 지정
+          //     ),
+          //     backgroundColor: Colors.white,    //버튼 배경색 지정
+          //   ),
+          // ),
           Align(
             alignment: Alignment(
                 Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.6), //보튼 위치 지정
             child: FloatingActionButton.small(
 
-              onPressed: () => getmarkers(),    //버튼 눌렀을때 동작 함수
-              tooltip: '근처 마트',            //버튼동작 설명 툴팁
+              onPressed: () => getmarkerClear(),    //버튼 눌렀을때 동작 함수
+              tooltip: '초기화',
+              //icon: Icon(Icons.restart_alt),            //버튼동작 설명 툴팁
               child: Icon(
-                Icons.shopping_cart
+                Icons.restart_alt
                 ,             //버튼 아이콘 지정
                 color: Colors.black,            //버튼 아이콘색 지정
               ),
-              backgroundColor: Colors.white,    //버튼 배경색 지정
-            ),
-          ),
-          Align(
-            alignment: Alignment(
-                Alignment.bottomLeft.x + 0.2, Alignment.bottomLeft.y - 0.8), //보튼 위치 지정
-            child: FloatingActionButton.small(
-
-              onPressed: () => getmarkerClear(),    //버튼 눌렀을때 동작 함수
-              tooltip: '근처 마트',
-              //icon: Icon(Icons.add_box),            //버튼동작 설명 툴팁
-              // child: Icon(
-              //   Icons.add_box
-              //   ,             //버튼 아이콘 지정
-              //   color: Colors.black,            //버튼 아이콘색 지정
-              // ),
                backgroundColor: Colors.white,    //버튼 배경색 지정
             ),
           ),
@@ -309,4 +317,6 @@ class _MapServiceState extends State<MapService> {
 
     );
   }
+
+
 }

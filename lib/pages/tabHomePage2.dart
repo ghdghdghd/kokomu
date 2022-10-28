@@ -62,10 +62,10 @@ class _tabHomePage2State extends State<tabHomePage2> {
               icon: Icon(Icons.notifications_outlined, size: 35,), // 환경설정 아이콘
               onPressed: () {
 
-               // Navigator.push(
-               //  context,
-               //   MaterialPageRoute(builder: (context) => popNotice()),
-               //  );
+               Navigator.push(
+                context,
+                 MaterialPageRoute(builder: (context) => popNotice()),
+                );
 
 
                 // showDialog(

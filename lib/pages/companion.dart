@@ -64,7 +64,7 @@ class _companionState extends State<companion> {
                     ),
                     elevation: 4.0 ,//그림자 깊이
                     child: Container(
-                      height: 140 ,
+                      height: 170 ,
                       width: 340,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

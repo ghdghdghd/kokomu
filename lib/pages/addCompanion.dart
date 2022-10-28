@@ -311,9 +311,23 @@ class _addCompanionState extends State<addCompanion> {
                     width: 350,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => tabHomePage2(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age)));
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext ctx){
+                              return AlertDialog(
+                                content: Text("등록이 완료되었습니다"),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => tabHomePage2(groupId: widget.groupId, userName: widget.userName, groupName: widget.groupName, email: widget.email, password: widget.password, age: widget.age)));
+
+                                      },
+                                      child: Text("확인"))
+                                ],
+                              );
+                            });
 
                       },
                       child: Text("등  록",style: TextStyle(fontSize: 18,color: Colors.black)),
